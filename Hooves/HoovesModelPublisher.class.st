@@ -72,6 +72,14 @@ HoovesModelPublisher >> processNewVersion [
 ]
 
 { #category : #initialization }
+HoovesModelPublisher >> publishModel [
+	modelPublication
+		publish: [ :versionedModel | 
+			versionedModel version: version.
+			versionedModel model: modelString ]
+]
+
+{ #category : #initialization }
 HoovesModelPublisher >> updateRequest: aRequest response: aResponse [
 	aRequest name = modelName ifFalse: [ 
 		aResponse version: -1.

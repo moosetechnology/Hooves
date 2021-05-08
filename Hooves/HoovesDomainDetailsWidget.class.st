@@ -89,30 +89,28 @@ HoovesDomainDetailsWidget >> applicationsList [
 
 { #category : #initialization }
 HoovesDomainDetailsWidget >> bind [
-	topicsList items: domain topics , domain services.
-	applicationsList items: domain applications.
-	
+	domain isConnected
+		ifTrue: [ topicsList items: domain topics , domain services ].
+	applicationsList items: domain applications
 ]
 
 { #category : #initialization }
 HoovesDomainDetailsWidget >> catalogMenu [
-
 	^ self newMenu
-		  title: 'Catalog options';
-		  addGroup: [ :aGroup | 
-			  aGroup
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Browse';
-						  description: 'Browse application class';
-						  action: [ self applicationCatalog selectedItem browse ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Install In Domain';
-						  iconName: #open;
-						  action: [ 
-							  domain installApplication:
-									  self applicationCatalog selectedItem ] ] ]
+		title: 'Catalog options';
+		addGroup: [ :aGroup | 
+			aGroup
+				addItem: [ :anItem | 
+					anItem
+						name: 'Browse';
+						description: 'Browse application class';
+						action: [ self applicationCatalog selectedItem browse ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Install In Domain';
+						iconName: #open;
+						action: [ domain
+								installApplication: self applicationCatalog selection selectedItem ] ] ]
 ]
 
 { #category : #initialization }

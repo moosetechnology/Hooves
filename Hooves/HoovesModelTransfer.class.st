@@ -11,11 +11,12 @@ Class {
 
 { #category : #initialization }
 HoovesModelTransfer >> initializeApplication [
-
+	super initializeApplication.
 	modelName := UIManager default
-		             request: 'Please insert the model name'
-		             initialAnswer: 'moose-model'.
-	modelName ifNil: [ ^ self error: 'Subscriber must have a model name' ]
+		request: 'Please insert the model name'
+		initialAnswer: 'moose-model'.
+	modelName
+		ifNil: [ ^ self error: 'Subscriber must have a model name' ]
 ]
 
 { #category : #accessing }
