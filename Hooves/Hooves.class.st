@@ -1,0 +1,65 @@
+Class {
+	#name : #Hooves,
+	#superclass : #SpPresenter,
+	#instVars : [
+		'store',
+		'domains',
+		'selectedDomain',
+		'details',
+		'log'
+	],
+	#category : #'Hooves-Spec'
+}
+
+{ #category : #specs }
+Hooves class >> defaultSpec [
+
+	^ SpBoxLayout newVertical
+		  add: (SpBoxLayout newHorizontal
+				   add: #domains width: 400;
+				   add: #details;
+				   yourself);
+		  add: #log;
+		  yourself
+]
+
+{ #category : #initialization }
+Hooves >> bindDomain [
+
+	details domain: selectedDomain
+]
+
+{ #category : #initialization }
+Hooves >> bindStore [
+
+	domains domains: store domains
+]
+
+{ #category : #initialization }
+Hooves >> initializeWidgets [
+
+	domains := self instantiate: HoovesDomainsListWidget.
+	domains onDomainChanged: [ :dom | self selectDomain: dom ].
+
+	details := self instantiate: HoovesDomainDetailsWidget.
+
+	log := self newText
+]
+
+{ #category : #initialization }
+Hooves >> initializeWindow: aWindow [ 
+	aWindow title: 'Hooves'
+]
+
+{ #category : #initialization }
+Hooves >> selectDomain: aDomain [ 
+	selectedDomain := aDomain.
+	self bindDomain
+]
+
+{ #category : #initialization }
+Hooves >> store: aStore [ 
+	store := aStore. 
+	self bindStore. 
+
+]
