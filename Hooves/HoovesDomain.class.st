@@ -30,6 +30,8 @@ HoovesDomain >> connect [
 HoovesDomain >> disconnect [
 	self isConnected ifFalse: [ ^ self  ].
 	connection disconnect. 
+	domain destroy. 
+	domain := nil. 
 	connection := nil.
 ]
 
