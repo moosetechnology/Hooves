@@ -19,6 +19,12 @@ HoovesConnection >> connectTo: domain with: name andIp: ipV4 [
 		               ip: ipV4
 ]
 
+{ #category : #'connection open/close' }
+HoovesConnection >> disconnect [
+	participant destroy.
+	participant := nil. 
+]
+
 { #category : #testing }
 HoovesConnection >> isConnected [
 
