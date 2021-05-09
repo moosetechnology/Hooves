@@ -39,34 +39,32 @@ HoovesDomainDetailsWidget >> applicationCatalog [
 
 { #category : #initialization }
 HoovesDomainDetailsWidget >> applicationMenu [
-
 	^ self newMenu
-		  title: 'Application options';
-		  addGroup: [ :aGroup | 
-			  aGroup
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Inspect';
-						  iconName: #inspect;
-						  description: 'Inspect Application';
-						  action: [ self applicationsList selectedItem inspect ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Start';
-						  iconName: #start;
-						  action: [ self applicationsList selectedItem start ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Stop';
-						  iconName: #stop;
-						  action: [ self applicationsList selectedItem stop ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Uninstall from Domain';
-						  iconName: #destroy;
-						  action: [ 
-							  domain uninstallApplication:
-									  self applicationsList selectedItem ] ] ]
+		title: 'Application options';
+		addGroup: [ :aGroup | 
+			aGroup
+				addItem: [ :anItem | 
+					anItem
+						name: 'Inspect';
+						iconName: #inspect;
+						description: 'Inspect Application';
+						action: [ self applicationsList selectedItem inspect ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Start';
+						iconName: #start;
+						action: [ self applicationsList selectedItem start ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Stop';
+						iconName: #stop;
+						action: [ self applicationsList selection selectedItem stop ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Uninstall from Domain';
+						iconName: #destroy;
+						action:
+								[ domain uninstallApplication: self applicationsList selectedItem ] ] ]
 ]
 
 { #category : #initialization }
@@ -90,7 +88,8 @@ HoovesDomainDetailsWidget >> applicationsList [
 { #category : #initialization }
 HoovesDomainDetailsWidget >> bind [
 	domain isConnected
-		ifTrue: [ topicsList items: domain topics , domain services ].
+		ifTrue: [ topicsList items: domain topics , domain services ]
+		ifFalse: [ topicsList items: {} ].
 	applicationsList items: domain applications
 ]
 
