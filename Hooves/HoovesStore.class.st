@@ -12,8 +12,30 @@ Class {
 }
 
 { #category : #accessing }
+HoovesStore class >> initialize [
+
+	SessionManager default
+		registerSystemClassNamed: self name
+		atPriority: 60
+]
+
+{ #category : #accessing }
 HoovesStore class >> instance [ 
 	^ instance ifNil: [  instance := self new  ]
+]
+
+{ #category : #accessing }
+HoovesStore class >> shutDown: quitting [
+
+	(quitting and: [ instance isNotNil ]) ifTrue: [ 
+		instance domains do: [ :d | d quittingImage ] ]
+]
+
+{ #category : #accessing }
+HoovesStore class >> startUp: isImageStarting [
+
+	isImageStarting ifTrue: [ 
+		instance domains do: [ :d | d startingImage ] ]
 ]
 
 { #category : #accessing }
@@ -28,7 +50,6 @@ HoovesStore >> domains [
 
 { #category : #initialization }
 HoovesStore >> initialize [
-
 	super initialize.
 	starter := OrderedCollection new.
 	domains := OrderedCollection new

@@ -7,7 +7,8 @@ Class {
 		'domain',
 		'connection',
 		'name',
-		'applications'
+		'applications',
+		'wasConnectedWhileShuttingDown'
 	],
 	#category : #'Hooves-Model'
 }
@@ -22,13 +23,16 @@ HoovesDomain >> applications [
 HoovesDomain >> connect [
 	self isConnected ifTrue: [ 
 		^ self error: 'Already connected to domain' ].
+	
 	connection := HoovesConnection new.
-	connection connectTo: self domain with: name andIp: interface ipV4
+	connection connectTo: self domain with: name andIp: interface ipV4.
+	self startApplications.
 ]
 
 { #category : #'connection open/close' }
 HoovesDomain >> disconnect [
 	self isConnected ifFalse: [ ^ self  ].
+	self stopApplications.
 	connection disconnect. 
 	domain destroy. 
 	domain := nil. 
@@ -57,7 +61,7 @@ HoovesDomain >> installApplication: aClass [
 	newApp domain: self. 
 	newApp initializeApplication. 
 	applications add: newApp. 
-	newApp start.
+	
 ]
 
 { #category : #accessing }
@@ -91,15 +95,45 @@ HoovesDomain >> participant [
 	^ connection participant
 ]
 
-{ #category : #accessing }
-HoovesDomain >> services [
+{ #category : #'connection open/close' }
+HoovesDomain >> quittingImage [
 
-	^ self domain services asOrderedCollection
+	wasConnectedWhileShuttingDown := self isConnected.
+	self disconnect. 
 ]
 
 { #category : #accessing }
-HoovesDomain >> topics [ 
-	^ self domain topics asOrderedCollection
+HoovesDomain >> services [
+
+	^ domain
+		  ifNil: [ OrderedCollection new ]
+		  ifNotNil: [ self domain services asOrderedCollection ]
+]
+
+{ #category : #'as yet unclassified' }
+HoovesDomain >> startApplications [
+
+	applications do: [ :a | a start ]
+]
+
+{ #category : #'connection open/close' }
+HoovesDomain >> startingImage [
+
+	wasConnectedWhileShuttingDown ifTrue: [ self connect ]
+]
+
+{ #category : #'connection open/close' }
+HoovesDomain >> stopApplications [
+
+	applications do: [ :a | a stop ]
+]
+
+{ #category : #accessing }
+HoovesDomain >> topics [
+
+	^ domain
+		  ifNil: [ OrderedCollection new]
+		  ifNotNil: [ self domain topics asOrderedCollection ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -115,5 +149,5 @@ HoovesDomain >> url [
 
 { #category : #accessing }
 HoovesDomain >> url: aZnUrl [ 
-	url := aZnUrl
+	url := aZnUrl.
 ]
