@@ -39,39 +39,34 @@ HoovesDomainDetailsWidget >> applicationCatalog [
 
 { #category : #initialization }
 HoovesDomainDetailsWidget >> applicationMenu [
-
 	^ self newMenu
-		  title: 'Application options';
-		  addGroup: [ :aGroup | 
-			  aGroup
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Inspect';
-						  iconName: #inspect;
-						  description: 'Inspect Application';
-						  action: [ self applicationsList selectedItem inspect ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Start';
-						  iconName: #start;
-						  action: [ 
-							  self applicationsList selectedItem start.
-							  self bind ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Stop';
-						  iconName: #stop;
-						  action: [ 
-							  self applicationsList selection selectedItem stop.
-							  self bind ] ];
-				  addItem: [ :anItem | 
-					  anItem
-						  name: 'Uninstall from Domain';
-						  iconName: #destroy;
-						  action: [ 
-							  domain uninstallApplication:
-									  self applicationsList selectedItem.
-							  self bind ] ] ]
+		title: 'Application options';
+		addGroup: [ :aGroup | 
+			aGroup
+				addItem: [ :anItem | 
+					anItem
+						name: 'Inspect';
+						iconName: #inspect;
+						description: 'Inspect Application';
+						action: [ self applicationsList selection selectedItem inspect ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Start';
+						iconName: #start;
+						action: [ self applicationsList selectedItem start.
+							self bind ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Stop';
+						iconName: #stop;
+						action: [ self applicationsList selection selectedItem stop.
+							self bind ] ];
+				addItem: [ :anItem | 
+					anItem
+						name: 'Uninstall from Domain';
+						iconName: #destroy;
+						action: [ domain uninstallApplication: self applicationsList selectedItem.
+							self bind ] ] ]
 ]
 
 { #category : #initialization }

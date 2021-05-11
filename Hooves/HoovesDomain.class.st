@@ -130,6 +130,7 @@ HoovesDomain >> startApplications [
 { #category : #'connection open/close' }
 HoovesDomain >> startingImage [
 
+	wasConnectedWhileShuttingDown ifNil: [^ self ]. 
 	wasConnectedWhileShuttingDown ifTrue: [ self connect ]
 ]
 

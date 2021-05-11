@@ -73,23 +73,21 @@ HoovesModelPublisher >> publishModel [
 
 { #category : #initialization }
 HoovesModelPublisher >> updateRequest: aRequest response: aResponse [
-	aRequest name = modelName ifFalse: [ 
-		aResponse version: -1.
-		aResponse errorText: 'This model provider does not provide ' , aRequest name.
-		^ aResponse 
-	].
-	aRequest version < version ifTrue: [ 
-		aResponse version: version.
-			^ aResponse 
-	].
-	[ 
-	   self processNewVersion.
-   	   aResponse nextVersion: version.
-	   ^ aResponse 
-	]
+	aRequest name = modelName
+		ifFalse: [ aResponse version: -1.
+			aResponse
+				errorText: 'This model provider does not provide ' , aRequest name.
+			^ aResponse ].
+	version ifNil: [ version := aRequest version - 1 ].
+	aRequest version < version
+		ifTrue: [ aResponse version: version.
+			^ aResponse ].
+	[ self processNewVersion.
+	aResponse nextVersion: version.
+	^ aResponse ]
 		on: Error
 		do: [ :e | 
 			aResponse nextVersion: -1.
-			aResponse errorText: ' Error processing new version! ' , e messageText 
-		]
+			aResponse
+				errorText: ' Error processing new version! ' , e messageText ]
 ]
