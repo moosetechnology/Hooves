@@ -124,6 +124,7 @@ HoovesDomainWidget >> saveDomain [
 				 ip text.
 				 port number asString }) asUrl.
 	domain interface: interface selectedItem. 
+	domain name: name text.
 	onSave cull: domain
 ]
 

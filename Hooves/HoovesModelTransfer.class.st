@@ -24,6 +24,20 @@ HoovesModelTransfer >> initializeApplication [
 		ifNil: [ ^ self error: 'Subscriber must have a model name' ]
 ]
 
+{ #category : #'as yet unclassified' }
+HoovesModelTransfer >> md5 [
+
+	^ modelString ifNotNil: [ 
+		  '' join:
+			  ((MD5 hashStream: modelString readStream) asOrderedCollection 
+				   collect: #asString) ]
+]
+
+{ #category : #accessing }
+HoovesModelTransfer >> modelName [
+	^ modelName
+]
+
 { #category : #accessing }
 HoovesModelTransfer >> modelName: aModelName [
 
