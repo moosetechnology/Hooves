@@ -1,3 +1,8 @@
+"
+A hooves application is a input output DDS application with access to services. 
+Remember, to access an application from the general installation you may want to execute: HoovesStore instance applications .
+Hooves will only keep the life cycle of your applications. Is up to you to send messages. 
+"
 Class {
 	#name : #HoovesApplication,
 	#superclass : #Object,
@@ -69,7 +74,7 @@ HoovesApplication >> start [
 { #category : #accessing }
 HoovesApplication >> state [
 
-	^ running
+	^ (running ifNil: [ running := false ])
 		  ifTrue: [ 'Running' ]
 		  ifFalse: [ 'Stopped' ]
 ]

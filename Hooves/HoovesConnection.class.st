@@ -1,3 +1,8 @@
+"
+In the DDS Standar i represent a network Participant. 
+In Hooves i represent a connection. I am required to publish / subscribe topics and to serve/call services. 
+I am not required to see what is going on. 
+"
 Class {
 	#name : #HoovesConnection,
 	#superclass : #Object,

@@ -40,15 +40,21 @@ Hooves >> initializeWidgets [
 
 	domains := self instantiate: HoovesDomainsListWidget.
 	domains onDomainChanged: [ :dom | self selectDomain: dom ].
-
+	domains onConnectionToggling: [ : isConnecting | self togglingConnection: isConnecting  ].
 	details := self instantiate: HoovesDomainDetailsWidget.
-
-	log := self newText
+	log := self newText.
+	
 ]
 
 { #category : #initialization }
 Hooves >> initializeWindow: aWindow [ 
-	aWindow title: 'Hooves'
+	aWindow title: 'Hooves'.
+	
+]
+
+{ #category : #initialization }
+Hooves >> logTopic: aContent [ 
+	log text: log text, aContent, String crlf
 ]
 
 { #category : #initialization }
@@ -62,4 +68,10 @@ Hooves >> store: aStore [
 	store := aStore. 
 	self bindStore. 
 
+]
+
+{ #category : #initialization }
+Hooves >> togglingConnection: isConnecting [
+
+	self bindDomain
 ]

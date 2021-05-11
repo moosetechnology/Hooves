@@ -93,6 +93,11 @@ HoovesDomainsListWidget >> initializeWidgets [
 ]
 
 { #category : #initialization }
+HoovesDomainsListWidget >> onConnectionToggling: aBlock [ 
+	domainViewer onConnectionToggling: aBlock 
+]
+
+{ #category : #initialization }
 HoovesDomainsListWidget >> onDomainChanged: aBlock [ 
 	onDomainChanged := aBlock
 ]

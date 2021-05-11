@@ -1,3 +1,6 @@
+"
+I am here only to store configurations 
+"
 Class {
 	#name : #HoovesStore,
 	#superclass : #Object,

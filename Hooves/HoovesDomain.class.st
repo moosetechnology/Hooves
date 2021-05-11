@@ -1,3 +1,11 @@
+"
+Our version of the standard uses a master node for a network. 
+In the DDS standar i represent the domain. This information comes directly from the network's master.
+Domain is required to be connected to a master to be able to see what is going on and to be able to produce connections.
+In the hooves side i do also manage applications.
+Applications are installed the context of a domain. 
+Applications can be as well: uninstalled, started and stopped.
+"
 Class {
 	#name : #HoovesDomain,
 	#superclass : #Object,
@@ -44,6 +52,9 @@ HoovesDomain >> domain [
 
 	^ domain ifNil: [ 
 		  domain := DDSExternallyDefinedDomain onSimpleDDS: url. " Add the protocol support "
+		  domain isConnected ifFalse: [ 
+			  domain := nil.
+			  ^ self error: 'The master is not currently online.' ].
 		  domain addProtocol:
 			  (DDSTCPProtocol encoding: MDDSEncoder decoding: MDDSDecoder) ]
 ]

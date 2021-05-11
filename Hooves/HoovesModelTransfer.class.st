@@ -1,3 +1,8 @@
+"
+Some times models must be transferred and updated. and then transfer to a network .
+This duple of applications (pub and sub) are the building bricks for this feature.
+
+"
 Class {
 	#name : #HoovesModelTransfer,
 	#superclass : #HoovesApplication,

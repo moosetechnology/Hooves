@@ -18,7 +18,9 @@ Class {
 		'onDelete',
 		'onSave',
 		'interfaceLabel',
-		'interface'
+		'interface',
+		'binding',
+		'onConnectionToggling'
 	],
 	#category : #'Hooves-Spec'
 }
@@ -54,7 +56,7 @@ HoovesDomainWidget class >> defaultSpec [
 
 { #category : #accessing }
 HoovesDomainWidget >> bind [
-
+	binding := true.
 	ip text: domain url host.
 	port number: domain url port.
 	name text: domain name.
@@ -64,7 +66,8 @@ HoovesDomainWidget >> bind [
 			 ifFalse: [ 'Connect' ]).
 	domain interface
 		ifNil: [ interface selectIndex: 1 ]
-		ifNotNil: [ :i | interface selectItem: i ]
+		ifNotNil: [ :i | [(interface selectItem: i)] on: Error do: [ interface selectIndex: 1 ] ].
+	binding := false.
 ]
 
 { #category : #accessing }
@@ -82,6 +85,8 @@ HoovesDomainWidget >> domain: aDomain [
 
 { #category : #accessing }
 HoovesDomainWidget >> initializeWidgets [ 
+	binding := false.
+	onConnectionToggling := [ : isConnecting |  ].
 	save := self newButton label:'Save'; icon: (self iconNamed:#smallSave); help: 'Save modifications'; action: [ self saveDomain ]; yourself.
 	delete := self newButton label:'Delete'; icon: (self iconNamed:#changeRemove);help: 'Delete connection';action: [ self deleteDomain ];  yourself.
 	connect := self newToggleButton icon: (self iconNamed: #remote); help: '(Dis)Connect to DDS Server';whenChangedDo: [  : bool | self toogleConnection: bool ]; yourself.
@@ -95,6 +100,12 @@ HoovesDomainWidget >> initializeWidgets [
 	nameLabel := self newLabel label:'DDSDomain Server name:'; yourself .
 	ipLabel := self newLabel label:'DDSDomain Server IP Address:'; yourself .
 	portLabel := self newLabel label:'DDSDomain Server Port Number'; yourself .
+]
+
+{ #category : #accessing }
+HoovesDomainWidget >> onConnectionToggling: aBlock [
+
+	onConnectionToggling := aBlock
 ]
 
 { #category : #accessing }
@@ -128,7 +139,17 @@ HoovesDomainWidget >> setPort [
 ]
 
 { #category : #'as yet unclassified' }
-HoovesDomainWidget >> toogleConnection: aBoolean [ 
-	aBoolean ifTrue: [ "Save & Connect" self saveDomain. domain connect. ] ifFalse: [ "Disconnect" domain disconnect ].
-	self bind. 
+HoovesDomainWidget >> toogleConnection: aBoolean [
+	binding ifTrue: [  ^ self ].
+	aBoolean ifTrue: [ 
+			"Save & Connect"
+			self saveDomain.
+			domain connect.
+			onConnectionToggling cull: true.
+		] ifFalse: [ 
+			"Disconnect" 
+			domain disconnect.
+			onConnectionToggling cull: false.
+		].
+	self bind
 ]

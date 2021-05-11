@@ -1,3 +1,7 @@
+"
+This abstract class allows a basic model publishing. It provides the publishing, and the update model service. 
+A subclass for a specific model should implement the access to a MSE model, a model regeneration method, and optionally a force code reload in the case that the update of a model is related with changes on the code baseline .
+"
 Class {
 	#name : #HoovesModelPublisher,
 	#superclass : #HoovesModelTransfer,
@@ -13,27 +17,15 @@ HoovesModelPublisher class >> description [
 	^ 'Moose MSE/Json Model publisher'
 ]
 
-{ #category : #accessing }
-HoovesModelPublisher class >> isApp [ 
-	^ true
-]
-
 { #category : #initialization }
 HoovesModelPublisher >> forceCodeReload [
-
-	Metacello new
-		baseline: 'Alce';
-		repository: 'github://impetuosa/Alce';
-		onConflictUseIncoming;
-		load
+	" The model publisher is usually related with reloading some model, related with code "
 ]
 
 { #category : #initialization }
 HoovesModelPublisher >> forceRegenerate [
-
-	AlceNorthwindCachedModelAbstractTest resetNorwindCachedModel.
-	AlceNorthwindCachedModelAbstractTest regenerateCacheModel.
-	version := version + 1
+	" Model must be regenerated. This is the MOTO of the model transfer applications. "
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }
@@ -53,12 +45,12 @@ HoovesModelPublisher >> initializeConnections [
 
 { #category : #initialization }
 HoovesModelPublisher >> loadMSEModel [
-	modelString := AlceNorthwindCachedModelAbstractTest cachedModelMSE.
+	" modelString is meant to be filled up with a MSE version of the model"
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }
 HoovesModelPublisher >> processNewVersion [
-	self assert: modelName = 'norwind'.
 	processingFuture
 		ifNotNil: [ processingFuture isFinished
 				ifFalse: [ ^ self	"Already processing" ] ].
