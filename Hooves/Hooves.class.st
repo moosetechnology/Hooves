@@ -23,6 +23,18 @@ Hooves class >> defaultSpec [
 		  yourself
 ]
 
+{ #category : #specs }
+Hooves class >> menuCommandOn: aBuilder [
+	<worldMenu>
+	(aBuilder item: #'Hooves')
+			order: 1; 
+			parent: #Moose;
+			label: 'Hooves Dashboard';
+			help: 'Moose DDS Network';
+			icon: (self iconNamed: #glamorousCloud);
+			action: [ Hooves new store: HoovesStore instance; openWithSpec. ]
+]
+
 { #category : #initialization }
 Hooves >> bindDomain [
 
