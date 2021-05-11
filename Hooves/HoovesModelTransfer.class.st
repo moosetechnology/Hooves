@@ -25,6 +25,11 @@ HoovesModelTransfer >> initializeApplication [
 ]
 
 { #category : #accessing }
+HoovesModelTransfer >> modelName [
+	^ modelName
+]
+
+{ #category : #accessing }
 HoovesModelTransfer >> modelName: aModelName [
 
 	modelName := aModelName

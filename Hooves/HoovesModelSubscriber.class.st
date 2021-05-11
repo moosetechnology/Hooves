@@ -76,9 +76,10 @@ HoovesModelSubscriber >> updateModel [
 
 { #category : #initialization }
 HoovesModelSubscriber >> updateModel: aVersionedModelMessage [
+	self inform: 'Updating Model!'.
 	(version isNil or: [ version < aVersionedModelMessage version ]) 
 		ifTrue: [ 
 			modelString := aVersionedModelMessage model.
 			model := nil.
-			version := aVersionedModelMessage version ]
+			version := aVersionedModelMessage version ] ifFalse: [  self inform: 'The received version seems to be too old' ]
 ]
