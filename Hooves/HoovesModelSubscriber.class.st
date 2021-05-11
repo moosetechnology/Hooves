@@ -11,7 +11,8 @@ Class {
 	#instVars : [
 		'caller',
 		'model',
-		'modelClass'
+		'modelClass',
+		'md5'
 	],
 	#category : #'Hooves-Model'
 }
@@ -61,6 +62,7 @@ HoovesModelSubscriber >> model [
 	^ model ifNil: [ 
 		  modelString ifNil: [ ^ self error: 'no model available' ].
 		  model := self loadModelFrom: modelString readStream .
+		  md5 := self md5.
 		  modelString := nil.
 		  model ]
 ]
