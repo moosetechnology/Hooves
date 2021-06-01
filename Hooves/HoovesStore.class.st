@@ -37,6 +37,7 @@ HoovesStore class >> shutDown: quitting [
 { #category : #accessing }
 HoovesStore class >> startUp: isImageStarting [
 
+	instance ifNil: [ ^ self ].
 	isImageStarting ifTrue: [ 
 		instance domains do: [ :d | d startingImage ] ]
 ]
